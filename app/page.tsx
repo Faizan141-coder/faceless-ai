@@ -1,3 +1,4 @@
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -11,9 +12,22 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 
+const images = [
+  { id: 1, src: "/ai-image.jpg", alt: "Photo by Drew Beamer", title: "AI Generated ✨" },
+  { id: 2, src: "/ai-image.jpg", alt: "Photo by Drew Beamer", title: "Minecraft Parkour" },
+  { id: 3, src: "/ai-image.jpg", alt: "Photo by Drew Beamer", title: "Minecraft Night" },
+  { id: 4, src: "/ai-image.jpg", alt: "Photo by Drew Beamer", title: "AI Generated ✨" },
+  { id: 5, src: "/ai-image.jpg", alt: "Photo by Drew Beamer", title: "AI Generated ✨" },
+  { id: 6, src: "/ai-image.jpg", alt: "Photo by Drew Beamer", title: "AI Generated ✨" },
+  { id: 7, src: "/ai-image.jpg", alt: "Photo by Drew Beamer", title: "AI Generated ✨" },
+  { id: 8, src: "/ai-image.jpg", alt: "Photo by Drew Beamer", title: "AI Generated ✨" },
+  { id: 9, src: "/ai-image.jpg", alt: "Photo by Drew Beamer", title: "AI Generated ✨" },
+];
+
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div>
+      {/* Select Story Type */}
       <div className="flex flex-col pt-36 items-center justify-center">
         <h1 className="text-5xl">Select a Story Type</h1>
         <h2 className="mt-6 text-neutral-400 text-sm">
@@ -26,7 +40,7 @@ export default function Home() {
           <span className="text-white"> enter them yourself</span>.
         </h2>
       </div>
-      <div className="flex items-center my-5 space-x-5">
+      <div className="flex items-center justify-center my-5 space-x-5">
         <Select>
           <SelectTrigger className="w-[180px] outline-[#4bf05b]">
             <SelectValue placeholder="AI Stories" />
@@ -74,12 +88,37 @@ export default function Home() {
         </div>
       </div>
       <div>
-        <h1 className="font-bold text-sm">
+        <h1 className="flex items-center justify-center font-bold text-sm">
           or{" "}
           <span className="ml-2 font-normal hover:underline hover:cursor-pointer">
             enter each story manually
           </span>
         </h1>
+      </div>
+
+      {/* Video Backgrounds */}
+      <div className="flex flex-col pt-36 items-center justify-center">
+        <h1 className="text-5xl">Video Backgrounds</h1>
+        <h2 className="mt-6 text-neutral-400 text-sm">
+          Select one or more video backgrounds
+        </h2>
+      </div>
+      <div className="flex justify-center items-center">
+        <div className="grid grid-cols-3 mt-5 gap-y-12 gap-20 items-center justify-center">
+          {images.map((image) => (
+            <div key={image.id} className="text-center w-[350px] h-[220px]">
+              <h1 className="font-bold py-2">{image.title}</h1>
+              <AspectRatio className="w-[350px] h-[220px]">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="rounded-md object-cover"
+                />
+              </AspectRatio>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
