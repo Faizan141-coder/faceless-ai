@@ -1,3 +1,5 @@
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -7,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -23,10 +26,10 @@ export default function Home() {
           <span className="text-white"> enter them yourself</span>.
         </h2>
       </div>
-      <div className="flex my-5">
+      <div className="flex items-center my-5 space-x-5">
         <Select>
           <SelectTrigger className="w-[180px] outline-[#4bf05b]">
-            <SelectValue placeholder="Select a fruit" />
+            <SelectValue placeholder="AI Stories" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -38,9 +41,40 @@ export default function Home() {
             </SelectGroup>
           </SelectContent>
         </Select>
+        <div>or</div>
+        <div className="relative flex items-center overflow-hidden">
+          <Image
+            src="/search-web.png"
+            width={20}
+            height={20}
+            alt="Search"
+            className="absolute left-3"
+          />
+          <Input
+            placeholder="Search the Web"
+            type="text"
+            className="input-field pl-10 text-white focus:border-[#4bf05b] focus:outline-none"
+          />
+        </div>
+        <div>or</div>
+        <div className="relative flex items-center overflow-hidden">
+          <Image
+            src="/reddit.png"
+            width={20}
+            height={20}
+            alt="Reddit"
+            className="absolute left-3"
+          />
+          <span className="absolute left-10 text-white">/r/</span>
+          <Input
+            placeholder="subreddit"
+            type="text"
+            className="input-field pl-14 text-white focus:border-[#4bf05b] focus:outline-none"
+          />
+        </div>
       </div>
       <div>
-        <h1 className="font-bold">
+        <h1 className="font-bold text-sm">
           or{" "}
           <span className="ml-2 font-normal hover:underline hover:cursor-pointer">
             enter each story manually
