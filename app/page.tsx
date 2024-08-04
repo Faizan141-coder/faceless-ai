@@ -1,6 +1,7 @@
 "use client";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 
@@ -13,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import VoiceSelector from "@/components/voice-selector";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -236,15 +238,7 @@ export default function Home() {
       </div>
 
       {/* Preview Series */}
-      <div className="flex flex-col pt-28 items-center justify-center">
-        <h1 className="text-5xl">Preview Your Series</h1>
-        <h2 className="mt-6 text-neutral-400 text-sm">
-          You can select multiple voices to be used in your Series.
-        </h2>
-        <h2 className="text-neutral-400 text-sm">
-          Selected voices will be chosen at random per video.
-        </h2>
-      </div>
+      <VoiceSelector />
     </div>
   );
 }
