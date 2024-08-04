@@ -1,12 +1,32 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="border-b w-full py-4 px-5 flex justify-between">
-      <Link href={'/'}>
+    <div
+      className={`fixed top-0 left-0 right-0 z-50 w-full py-4 px-5 flex justify-between bg-[#101215] transition-colors duration-300 ${
+        scrolled ? "border-b border-white" : "border-b border-[#101215]"
+      }`}
+    >
+      <Link href={"/"}>
         <div className="flex items-center space-x-2">
           <Image
             src="/faceless_logo.png"
