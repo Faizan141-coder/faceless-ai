@@ -1,5 +1,6 @@
-// components/VoiceSelector.tsx
-import React, { useState } from "react";
+'use client'
+
+import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { Button } from "./ui/button";
 import {
@@ -29,6 +30,15 @@ const VoiceSelector: React.FC = () => {
     Echo: false,
     Nova: false,
   });
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) {
+    return true
+  }
 
   const toggleVoice = (voice: keyof SelectedVoices) => {
     setSelectedVoices((prev) => ({
