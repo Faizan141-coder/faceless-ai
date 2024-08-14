@@ -1,31 +1,68 @@
-import axios from "axios";
+'use server'
 
-export async function getAgentExecutor() {
-    try {
-        const response = await axios.post(
-          "https://server.viravid.pro/agent-executor",
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              video_link:
-                "https://res.cloudinary.com/dahjaauna/video/upload/v1723055976/4_edited_gzk1qa.mp4",
-              internet_enable: true,
-              keywords: ["Steve Jobs", "Apple"],
-              writing_style: "Motivation",
-              font_style: "Arial",
-              voiceId: "29vD33N1CtxCmqQRPOHJ",
-              prompt: "",
-            }),
-          }
-        );
-  
-        const data = await response.data
-        console.log(data)
-        console.log(data.url)
-        return data.url // Set the video URL here
-      } catch (error) {
-        console.error("Error creating series:", error);
-      }
+import fetch from 'node-fetch';
+import https from 'https';
+
+interface VideoProps {
+  video_link: string;
+  internet_enable: boolean;
+  keywords: string[];
+  writing_style: string;
+  font_style: string;
+  voiceId: string
+  prompt: string;
+}
+
+export async function fetchVideoUrl({
+  video_link,
+  internet_enable,
+  keywords,
+  writing_style,
+  font_style,
+  voiceId,
+  prompt
+}: VideoProps) {
+  const url = 'https://server.viravid.pro/agent-executor';
+ console.log('clicked')
+  // Define the body of the POST request
+  const requestBody = {
+    video_link,
+    internet_enable,
+    keywords,
+    writing_style,
+    font_style,
+    voiceId,
+    prompt
+  };
+  const agent = new https.Agent({
+    rejectUnauthorized: false
+  });
+  try {
+    // Make the POST request to the external server
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+      agent:agent
+    });
+
+    // Check if the request was successful
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Parse and return the JSON response
+    const data = await response.json();
+    // @ts-ignore
+    console.log(data.url)
+    // @ts-ignore
+    return data.url
+  } catch (error) {
+    // Handle errors
+    console.error('Error fetching video URL:', error);
+   
+  }
+
 }

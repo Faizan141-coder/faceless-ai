@@ -1,16 +1,9 @@
-'use client'
+"use client";
 
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { Button } from "./ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
+import { fetchVideoUrl } from "@/actions/agent-executor";
 
 interface SelectedVoices {
   Matthew: boolean;
@@ -21,7 +14,7 @@ interface SelectedVoices {
   Nova: boolean;
 }
 
-const VoiceSelector: React.FC = () => {
+const VoiceSelector = () => {
   const [selectedVoices, setSelectedVoices] = useState<SelectedVoices>({
     Matthew: false,
     Joanna: false,
@@ -30,14 +23,16 @@ const VoiceSelector: React.FC = () => {
     Echo: false,
     Nova: false,
   });
-  const [isMounted, setIsMounted] = useState(false)
+  const [videoUrl, setVideoUrl] = useState("/video/minecraft.mp4"); // Initial video URL
+  const [isLoading, setIsLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setIsMounted(true);
+  }, []);
 
   if (!isMounted) {
-    return true
+    return true;
   }
 
   const toggleVoice = (voice: keyof SelectedVoices) => {
@@ -45,6 +40,43 @@ const VoiceSelector: React.FC = () => {
       ...prev,
       [voice]: !prev[voice],
     }));
+  };
+
+  const video_url = "";
+  const internet_enable = true;
+  const keywords = [""];
+  const writing_style = "";
+  const font_style = "";
+  const voiceId = "";
+  const prompt = "";
+
+  const handleCreateSeries = async () => {
+    setIsLoading(true);
+    console.log("Before try");
+    try {
+      console.log("after try and before fetch");
+
+      const data = await fetchVideoUrl({
+        video_link: video_url,
+        internet_enable,
+        keywords,
+        writing_style,
+        font_style,
+        voiceId,
+        prompt,
+      }); // Call the server action to get the video URL
+
+      console.log("after fetch");
+
+      setVideoUrl(data);
+      console.log("after set video");
+
+      console.log("URL: ", data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const voices = [
@@ -73,7 +105,7 @@ const VoiceSelector: React.FC = () => {
         {/* Video Player */}
         <div className="rounded-lg overflow-hidden">
           <ReactPlayer
-            url="/video/minecraft.mp4" // Replace with your video URL
+            url={videoUrl} // Replace with your dynamic video URL
             controls
             loop
             width="320px"
@@ -83,26 +115,7 @@ const VoiceSelector: React.FC = () => {
 
         {/* Voice Selection */}
         <div className="w-1/2 flex flex-col items-start ml-10">
-          <div className="flex py-2 space-x-2 px-2">
-            <h3 className="text-lg mt-1.5 mb-7">Voice Language: </h3>
-            <Select>
-              <SelectTrigger className="w-[180px] outline-[#4bf05b]">
-                <SelectValue placeholder="English (US)" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="english">English (US)</SelectItem>
-                  <SelectItem value="spanish">Spanish (Mexican)</SelectItem>
-                  <SelectItem value="french">French</SelectItem>
-                  <SelectItem value="portuguese">Portuguese</SelectItem>
-                  <SelectItem value="german">German</SelectItem>
-                  <SelectItem value="italian">Italian</SelectItem>
-                  <SelectItem value="hindi">Hindi</SelectItem>
-                  <SelectItem value="russian">Russian</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Voice Selection JSX */}
           {voices.map((voice) => (
             <div
               key={voice.name}
@@ -145,7 +158,9 @@ const VoiceSelector: React.FC = () => {
       </div>
 
       <div className="mt-20">
-        <Button>Create Series</Button>
+        <Button onClick={handleCreateSeries} disabled={isLoading}>
+          {isLoading ? "Generating..." : "Create Series"}
+        </Button>
       </div>
     </div>
   );
