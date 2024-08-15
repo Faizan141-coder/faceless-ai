@@ -16,8 +16,9 @@ import {
 } from "@/components/ui/select";
 import VideoBackgrounds from "@/components/video-backgrounds";
 import VoiceSelector from "@/components/voice-selector";
+import { Pause, Play } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import ReactPlayer from "react-player";
 
@@ -225,6 +226,13 @@ const getRandomUrl = (category: keyof VideoUrls): string => {
 };
 
 export default function Home() {
+  const audioPlayerRef1 = useRef<ReactAudioPlayer | null>(null);
+  const audioPlayerRef2 = useRef<ReactAudioPlayer | null>(null);
+  const audioPlayerRef3 = useRef<ReactAudioPlayer | null>(null);
+  const audioPlayerRef4 = useRef<ReactAudioPlayer | null>(null);
+  const audioPlayerRef5 = useRef<ReactAudioPlayer | null>(null);
+  const audioPlayerRef6 = useRef<ReactAudioPlayer | null>(null);
+
   const [selectedColor, setSelectedColor] = useState("#23a05b");
   const [selectedVoices, setSelectedVoices] = useState<SelectedVoices>({
     Matthew: false,
@@ -237,6 +245,14 @@ export default function Home() {
   const [videoUrl, setVideoUrl] = useState("/video/minecraft.mp4"); // Initial video URL
   const [isLoading, setIsLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+
+  const [isPlaying1, setIsPlaying1] = useState(false);
+  const [isPlaying2, setIsPlaying2] = useState(false);
+  const [isPlaying3, setIsPlaying3] = useState(false);
+  const [isPlaying4, setIsPlaying4] = useState(false);
+  const [isPlaying5, setIsPlaying5] = useState(false);
+  const [isPlaying6, setIsPlaying6] = useState(false);
+
   const [writingStyle, setWritingStyle] = useState<string | null>(null);
   const [keywords, setKeywords] = useState<string[]>([]);
   const [prompt, setPrompt] = useState<string | null>(null);
@@ -282,6 +298,90 @@ export default function Home() {
   const handlePromptChange = (e: any) => {
     setPrompt(e.target.value);
     setKeywords([""]);
+  };
+
+  const handlePlayPause1 = () => {
+    if (audioPlayerRef1.current) {
+      const audioElement = audioPlayerRef1.current.audioEl.current;
+      if (audioElement) {
+        if (isPlaying1) {
+          audioElement.pause();
+        } else {
+          audioElement.play();
+        }
+        setIsPlaying1(!isPlaying1);
+      }
+    }
+  };
+
+  const handlePlayPause2 = () => {
+    if (audioPlayerRef2.current) {
+      const audioElement = audioPlayerRef2.current.audioEl.current;
+      if (audioElement) {
+        if (isPlaying2) {
+          audioElement.pause();
+        } else {
+          audioElement.play();
+        }
+        setIsPlaying2(!isPlaying2);
+      }
+    }
+  };
+
+  const handlePlayPause3 = () => {
+    if (audioPlayerRef3.current) {
+      const audioElement = audioPlayerRef3.current.audioEl.current;
+      if (audioElement) {
+        if (isPlaying3) {
+          audioElement.pause();
+        } else {
+          audioElement.play();
+        }
+        setIsPlaying3(!isPlaying3);
+      }
+    }
+  };
+
+  const handlePlayPause4 = () => {
+    if (audioPlayerRef4.current) {
+      const audioElement = audioPlayerRef4.current.audioEl.current;
+      if (audioElement) {
+        if (isPlaying4) {
+          audioElement.pause();
+        } else {
+          audioElement.play();
+        }
+        setIsPlaying4(!isPlaying4);
+      }
+    }
+  };
+
+  const handlePlayPause5 = () => {
+    if (audioPlayerRef5.current) {
+      const audioElement = audioPlayerRef5.current.audioEl.current;
+      if (audioElement) {
+        if (isPlaying5) {
+          audioElement.pause();
+        } else {
+          audioElement.play();
+        }
+        setIsPlaying5(!isPlaying5);
+      }
+    }
+  };
+
+  const handlePlayPause6 = () => {
+    if (audioPlayerRef6.current) {
+      const audioElement = audioPlayerRef6.current.audioEl.current;
+      if (audioElement) {
+        if (isPlaying6) {
+          audioElement.pause();
+        } else {
+          audioElement.play();
+        }
+        setIsPlaying6(!isPlaying6);
+      }
+    }
   };
 
   const getSelectedVoiceId = (): string | undefined => {
@@ -495,10 +595,14 @@ export default function Home() {
           <div className="w-1/2 flex flex-col items-start ml-10">
             {/* Voice Selection JSX */}
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
-              {/* <button className="mr-4 text-white text-2xl">▶</button> */}
+              <button onClick={handlePlayPause1} className="p-3 mr-3 border border-white rounded-full">
+                {isPlaying1 ? <Pause /> : <Play />}
+              </button>
               <ReactAudioPlayer
                 src={"/voice/male_voice_1.mp3"} // Replace with your dynamic video URL
-                controls
+                controls={false}
+                ref={audioPlayerRef1}
+                onEnded={() => setIsPlaying1(false)}
                 className="pr-4 w-32"
               />
               <span className="flex-1">
@@ -514,10 +618,14 @@ export default function Home() {
             </div>
 
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
-              {/* <button className="mr-4 text-white text-2xl">▶</button> */}
+              <button onClick={handlePlayPause2} className="p-3 mr-3 border border-white rounded-full">
+                {isPlaying2 ? <Pause /> : <Play />}
+              </button>
               <ReactAudioPlayer
                 src={"/voice/female_voice_1.mp3"} // Replace with your dynamic video URL
-                controls
+                controls={false}
+                ref={audioPlayerRef2}
+                onEnded={() => setIsPlaying2(false)}
                 className="pr-4 w-32"
               />
               <span className="flex-1">
@@ -533,11 +641,15 @@ export default function Home() {
             </div>
 
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
-              {/* <button className="mr-4 text-white text-2xl">▶</button> */}
+              <button onClick={handlePlayPause3} className="p-3 mr-3 border border-white rounded-full">
+                {isPlaying3 ? <Pause /> : <Play />}
+              </button>
               <ReactAudioPlayer
                 src={"/voice/female_voice_2.mp3"} // Replace with your dynamic video URL
-                controls
-                className="w-32 pr-4"
+                controls={false}
+                ref={audioPlayerRef3}
+                onEnded={() => setIsPlaying3(false)}
+                className="pr-4 w-32"
               />
               <span className="flex-1">
                 {"Salli"} ({"Female"})
@@ -557,9 +669,14 @@ export default function Home() {
               </h3>
             </div>
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
+              <button onClick={handlePlayPause4} className="p-3 mr-3 border border-white rounded-full">
+                {isPlaying4 ? <Pause /> : <Play />}
+              </button>
               <ReactAudioPlayer
                 src={"/voice/male_voice_2.mp3"} // Replace with your dynamic video URL
-                controls
+                controls={false}
+                ref={audioPlayerRef4}
+                onEnded={() => setIsPlaying4(false)}
                 className="pr-4 w-32"
               />
               <span className="flex-1 text-green-500">
@@ -571,9 +688,14 @@ export default function Home() {
             </div>
 
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
+              <button onClick={handlePlayPause5} className="p-3 mr-3 border border-white rounded-full">
+                {isPlaying5 ? <Pause /> : <Play />}
+              </button>
               <ReactAudioPlayer
                 src={"/voice/male_voice_3.mp3"} // Replace with your dynamic video URL
-                controls
+                controls={false}
+                ref={audioPlayerRef5}
+                onEnded={() => setIsPlaying5(false)}
                 className="pr-4 w-32"
               />
               <span className="flex-1 text-green-500">
@@ -585,9 +707,14 @@ export default function Home() {
             </div>
 
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
+              <button onClick={handlePlayPause6} className="p-3 mr-3 border border-white rounded-full">
+                {isPlaying6 ? <Pause /> : <Play />}
+              </button>
               <ReactAudioPlayer
                 src={"/voice/female_voice_3.mp3"} // Replace with your dynamic video URL
-                controls
+                controls={false}
+                ref={audioPlayerRef6}
+                onEnded={() => setIsPlaying6(false)}
                 className="pr-4 w-32"
               />
               <span className="flex-1 text-green-500">
