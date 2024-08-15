@@ -252,6 +252,9 @@ export default function Home() {
   const [isPlaying4, setIsPlaying4] = useState(false);
   const [isPlaying5, setIsPlaying5] = useState(false);
   const [isPlaying6, setIsPlaying6] = useState(false);
+  const [selectedBackground, setSelectedBackground] = useState<
+    string | number
+  >();
 
   const [writingStyle, setWritingStyle] = useState<string | null>(null);
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -287,6 +290,7 @@ export default function Home() {
     if (category) {
       const videoUrl = getRandomUrl(category);
       setVideoUrl(videoUrl);
+      setSelectedBackground(category);
       console.log("Selected Video URL:", videoUrl); // Optional: For debugging
     }
   };
@@ -506,7 +510,7 @@ export default function Home() {
           {images.map((image) => (
             <div
               key={image.id}
-              className="text-center w-[350px] h-[220px]"
+              className="text-center w-[350px] h-[220px] cursor-pointer"
               onClick={() => handleBackgroundClick(image.category)}
             >
               <h1 className="font-bold py-2">{image.title}</h1>
@@ -515,7 +519,12 @@ export default function Home() {
                   src={image.src}
                   alt={image.alt}
                   fill
-                  className="rounded-md object-cover"
+                  className={`rounded-md object-cover
+                  ${
+                    selectedBackground === image.category
+                      ? "border-2 border-[#4bf05b]"
+                      : "border border-transparent"
+                  }`}
                 />
               </AspectRatio>
             </div>
@@ -595,8 +604,11 @@ export default function Home() {
           <div className="w-1/2 flex flex-col items-start ml-10">
             {/* Voice Selection JSX */}
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
-              <button onClick={handlePlayPause1} className="p-3 mr-3 border border-white rounded-full">
-                {isPlaying1 ? <Pause /> : <Play />}
+              <button
+                onClick={handlePlayPause1}
+                className="p-3 mr-3 border border-white rounded-full"
+              >
+                {isPlaying1 ? <Pause fill="white" /> : <Play fill="white" />}
               </button>
               <ReactAudioPlayer
                 src={"/voice/male_voice_1.mp3"} // Replace with your dynamic video URL
@@ -618,8 +630,11 @@ export default function Home() {
             </div>
 
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
-              <button onClick={handlePlayPause2} className="p-3 mr-3 border border-white rounded-full">
-                {isPlaying2 ? <Pause /> : <Play />}
+              <button
+                onClick={handlePlayPause2}
+                className="p-3 mr-3 border border-white rounded-full"
+              >
+                {isPlaying2 ? <Pause fill="white" /> : <Play fill="white" />}
               </button>
               <ReactAudioPlayer
                 src={"/voice/female_voice_1.mp3"} // Replace with your dynamic video URL
@@ -641,8 +656,11 @@ export default function Home() {
             </div>
 
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
-              <button onClick={handlePlayPause3} className="p-3 mr-3 border border-white rounded-full">
-                {isPlaying3 ? <Pause /> : <Play />}
+              <button
+                onClick={handlePlayPause3}
+                className="p-3 mr-3 border border-white rounded-full"
+              >
+                {isPlaying3 ? <Pause fill="white" /> : <Play fill="white" />}
               </button>
               <ReactAudioPlayer
                 src={"/voice/female_voice_2.mp3"} // Replace with your dynamic video URL
@@ -669,8 +687,11 @@ export default function Home() {
               </h3>
             </div>
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
-              <button onClick={handlePlayPause4} className="p-3 mr-3 border border-white rounded-full">
-                {isPlaying4 ? <Pause /> : <Play />}
+              <button
+                onClick={handlePlayPause4}
+                className="p-3 mr-3 border border-white rounded-full"
+              >
+                {isPlaying4 ? <Pause fill="white" /> : <Play fill="white" />}
               </button>
               <ReactAudioPlayer
                 src={"/voice/male_voice_2.mp3"} // Replace with your dynamic video URL
@@ -688,8 +709,11 @@ export default function Home() {
             </div>
 
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
-              <button onClick={handlePlayPause5} className="p-3 mr-3 border border-white rounded-full">
-                {isPlaying5 ? <Pause /> : <Play />}
+              <button
+                onClick={handlePlayPause5}
+                className="p-3 mr-3 border border-white rounded-full"
+              >
+                {isPlaying5 ? <Pause fill="white" /> : <Play fill="white" />}
               </button>
               <ReactAudioPlayer
                 src={"/voice/male_voice_3.mp3"} // Replace with your dynamic video URL
@@ -707,8 +731,11 @@ export default function Home() {
             </div>
 
             <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
-              <button onClick={handlePlayPause6} className="p-3 mr-3 border border-white rounded-full">
-                {isPlaying6 ? <Pause /> : <Play />}
+              <button
+                onClick={handlePlayPause6}
+                className="p-3 mr-3 border border-white rounded-full"
+              >
+                {isPlaying6 ? <Pause fill="white" /> : <Play fill="white" />}
               </button>
               <ReactAudioPlayer
                 src={"/voice/female_voice_3.mp3"} // Replace with your dynamic video URL
