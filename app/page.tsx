@@ -18,6 +18,7 @@ import VideoBackgrounds from "@/components/video-backgrounds";
 import VoiceSelector from "@/components/voice-selector";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import ReactAudioPlayer from "react-audio-player";
 import ReactPlayer from "react-player";
 
 interface VideoUrls {
@@ -41,13 +42,21 @@ interface SelectedVoices {
   Nova: boolean;
 }
 
+interface Voice {
+  name: string;
+  gender: string;
+  id: string;
+  type: string;
+  audioFile: string;
+}
+
 const images: Image[] = [
-  {
-    id: 1,
-    src: "/bg/ai-image.jpg",
-    alt: "Photo by Drew Beamer",
-    title: "AI Generated ✨",
-  },
+  // {
+  //   id: 1,
+  //   src: "/bg/ai-image.jpg",
+  //   alt: "Photo by Drew Beamer",
+  //   title: "AI Generated ✨",
+  // },
   {
     id: 2,
     src: "/bg/minecraft_parkour.jpeg",
@@ -55,13 +64,13 @@ const images: Image[] = [
     title: "Minecraft Parkour",
     category: "Minecraft",
   },
-  {
-    id: 3,
-    src: "/bg/minecraft_night.jpeg",
-    alt: "Photo by Drew Beamer",
-    title: "Minecraft Night",
-    category: "Minecraft",
-  },
+  // {
+  //   id: 3,
+  //   src: "/bg/minecraft_night.jpeg",
+  //   alt: "Photo by Drew Beamer",
+  //   title: "Minecraft Night",
+  //   category: "Minecraft",
+  // },
   {
     id: 4,
     src: "/bg/gta5.jpeg",
@@ -76,48 +85,48 @@ const images: Image[] = [
     title: "Subway Surfer",
     category: "Subway Surfers",
   },
-  {
-    id: 6,
-    src: "/bg/satisfying.jpeg",
-    alt: "Photo by Drew Beamer",
-    title: "Satisfying",
-  },
-  {
-    id: 7,
-    src: "/bg/spooky.jpeg",
-    alt: "Photo by Drew Beamer",
-    title: "Spooky (Woods)",
-  },
-  {
-    id: 8,
-    src: "/bg/luxury.jpg",
-    alt: "Photo by Drew Beamer",
-    title: "Luxury",
-  },
-  {
-    id: 9,
-    src: "/bg/ominous.jpeg",
-    alt: "Photo by Drew Beamer",
-    title: "Ominous (Space)",
-  },
-  {
-    id: 10,
-    src: "/bg/peaceful.jpeg",
-    alt: "Photo by Drew Beamer",
-    title: "Peaceful",
-  },
-  {
-    id: 11,
-    src: "/bg/scary.jpeg",
-    alt: "Photo by Drew Beamer",
-    title: "Scary (Skulls)",
-  },
-  {
-    id: 12,
-    src: "/bg/nature.jpeg",
-    alt: "Photo by Drew Beamer",
-    title: "Nature",
-  },
+  // {
+  //   id: 6,
+  //   src: "/bg/satisfying.jpeg",
+  //   alt: "Photo by Drew Beamer",
+  //   title: "Satisfying",
+  // },
+  // {
+  //   id: 7,
+  //   src: "/bg/spooky.jpeg",
+  //   alt: "Photo by Drew Beamer",
+  //   title: "Spooky (Woods)",
+  // },
+  // {
+  //   id: 8,
+  //   src: "/bg/luxury.jpg",
+  //   alt: "Photo by Drew Beamer",
+  //   title: "Luxury",
+  // },
+  // {
+  //   id: 9,
+  //   src: "/bg/ominous.jpeg",
+  //   alt: "Photo by Drew Beamer",
+  //   title: "Ominous (Space)",
+  // },
+  // {
+  //   id: 10,
+  //   src: "/bg/peaceful.jpeg",
+  //   alt: "Photo by Drew Beamer",
+  //   title: "Peaceful",
+  // },
+  // {
+  //   id: 11,
+  //   src: "/bg/scary.jpeg",
+  //   alt: "Photo by Drew Beamer",
+  //   title: "Scary (Skulls)",
+  // },
+  // {
+  //   id: 12,
+  //   src: "/bg/nature.jpeg",
+  //   alt: "Photo by Drew Beamer",
+  //   title: "Nature",
+  // },
 ];
 
 const videoUrls: VideoUrls = {
@@ -161,16 +170,52 @@ const terms = [
   { id: 12, label: "HOLTWOOD ONE" },
 ];
 
-const voices = [
-  { name: "Matthew", gender: "Male", type: "standard" },
-  { name: "Joanna", gender: "Female", type: "standard" },
-  { name: "Salli", gender: "Female", type: "standard" },
+const voices: Voice[] = [
+  {
+    name: "Matthew",
+    gender: "Male",
+    type: "standard",
+    id: "pNInz6obpgDQGcFmaJgB",
+    audioFile: "/voice/male_vocie_1.mp3",
+  },
+  {
+    name: "Joanna",
+    gender: "Female",
+    type: "standard",
+    id: "Xb7hH8MSUJpSbSDYk0k2",
+    audioFile: "/voice/female_vocie_1.mp3",
+  },
+  {
+    name: "Salli",
+    gender: "Female",
+    type: "standard",
+    id: "MF3mGyEYCl7XYWbV9V6O",
+    audioFile: "/voice/female_vocie_2.mp3",
+  },
 ];
 
-const premiumVoices = [
-  { name: "Onyx", gender: "Male", type: "premium" },
-  { name: "Echo", gender: "Male", type: "premium" },
-  { name: "Nova", gender: "Female", type: "premium" },
+const premiumVoices: Voice[] = [
+  {
+    name: "Onyx",
+    gender: "Male",
+    type: "premium",
+    id: "VR6AewLTigWG4xSOukaG",
+    audioFile: "/voice/male_vocie_2.mp3",
+  },
+  {
+    name: "Echo",
+    gender: "Male",
+    type: "premium",
+    id: "pqHfZKP75CvOlQylNhV4",
+    audioFile: "/voice/male_vocie_3.mp3",
+  },
+  {
+    name: "Nova",
+    gender: "Female",
+    type: "premium",
+    id: "LcfcDJNUP1GQjkzn1xUU",
+    audioFile: "/voice/female_vocie_3.mp3",
+  },
 ];
 
 const getRandomUrl = (category: keyof VideoUrls): string => {
@@ -192,13 +237,15 @@ export default function Home() {
   const [videoUrl, setVideoUrl] = useState("/video/minecraft.mp4"); // Initial video URL
   const [isLoading, setIsLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [writingStyle, setWritingStyle] = useState<string | null>(null);
+  const [keywords, setKeywords] = useState<string[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   if (!isMounted) {
-    return true;
+    return null;
   }
 
   const toggleVoice = (voice: keyof SelectedVoices) => {
@@ -206,6 +253,15 @@ export default function Home() {
       ...prev,
       [voice]: !prev[voice],
     }));
+    console.log("Selected Voice: ", selectedVoices);
+  };
+
+  // Function to handle keyword input change
+  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputKeywords = event.target.value
+      .split(",")
+      .map((keyword) => keyword.trim());
+    setKeywords(inputKeywords);
   };
 
   const handleBackgroundClick = (category?: keyof VideoUrls): void => {
@@ -221,28 +277,31 @@ export default function Home() {
     setSelectedColor(event.target.value);
   };
 
-  const video_url = videoUrl;
-  const internet_enable = true;
-  const keywords = [""];
-  const writing_style = "";
-  const font_style = "";
-  const voiceId = "";
-  const prompt = "";
+  const getSelectedVoiceId = (): string | undefined => {
+    const selectedVoice = voices
+      .concat(premiumVoices)
+      .find((voice) => selectedVoices[voice.name as keyof SelectedVoices]);
+    return selectedVoice ? selectedVoice.id : undefined;
+  };
 
   const handleCreateSeries = async () => {
     setIsLoading(true);
+    const voiceId = getSelectedVoiceId();
+
+    console.log("Writing Style: ", writingStyle);
+    console.log("Selected Keywords: ", keywords);
     console.log("Before try");
     try {
       console.log("after try and before fetch");
 
       const data = await fetchVideoUrl({
-        video_link: video_url,
-        internet_enable,
+        video_link: videoUrl,
+        internet_enable: true,
         keywords,
-        writing_style,
-        font_style,
-        voiceId,
-        prompt,
+        writing_style: writingStyle || "",
+        font_style: "Arial",
+        voiceId: voiceId || "",
+        prompt: "",
       }); // Call the server action to get the video URL
 
       console.log("after fetch");
@@ -275,17 +334,20 @@ export default function Home() {
         </h2>
       </div>
       <div className="flex items-center justify-center my-5 space-x-5">
-        <Select>
+        <Select onValueChange={(value) => setWritingStyle(value)}>
           <SelectTrigger className="w-[180px] outline-[#4bf05b]">
-            <SelectValue placeholder="AI Stories" />
+            <SelectValue placeholder="Select Style" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
+              <SelectItem value="Motivational">Motivational Stories</SelectItem>
+              <SelectItem value="Fun_Facts">Fun Facts</SelectItem>
+              <SelectItem value="Scary_Stories">Scary Stories</SelectItem>
+              <SelectItem value="Relationship_Drama">
+                Relationship Drama
+              </SelectItem>
+              <SelectItem value="Success_Grindset">Success Grindset</SelectItem>
+              <SelectItem value="Bedtime_Stories">Bedtime Stories</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -299,27 +361,13 @@ export default function Home() {
             className="absolute left-3"
           />
           <Input
-            placeholder="Search the Web"
+            placeholder="Enter Keywords"
             type="text"
+            onChange={handleKeywordChange}
             className="input-field pl-10 text-white focus:border-[#4bf05b] focus:outline-none"
           />
         </div>
-        <div>or</div>
-        <div className="relative flex items-center overflow-hidden">
-          <Image
-            src="/reddit.png"
-            width={20}
-            height={20}
-            alt="Reddit"
-            className="absolute left-3"
-          />
-          <span className="absolute left-10 text-white">/r/</span>
-          <Input
-            placeholder="subreddit"
-            type="text"
-            className="input-field pl-14 text-white focus:border-[#4bf05b] focus:outline-none"
-          />
-        </div>
+
       </div>
       <div>
         <h1 className="flex items-center justify-center font-bold text-sm">
@@ -431,46 +479,109 @@ export default function Home() {
           {/* Voice Selection */}
           <div className="w-1/2 flex flex-col items-start ml-10">
             {/* Voice Selection JSX */}
-            {voices.map((voice) => (
-              <div
-                key={voice.name}
-                className="flex items-center p-3 pl-3 border border-gray-700 rounded-lg w-full"
-              >
-                <button className="mr-4 text-white text-2xl">▶</button>
-                <span className="flex-1">
-                  {voice.name} ({voice.gender})
-                </span>
-                <input
-                  type="checkbox"
-                  className="mr-2"
-                  checked={selectedVoices[voice.name as keyof SelectedVoices]}
-                  onChange={() =>
-                    toggleVoice(voice.name as keyof SelectedVoices)
-                  }
-                />
-                <span>Use Voice</span>
-              </div>
-            ))}
+            <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
+              {/* <button className="mr-4 text-white text-2xl">▶</button> */}
+              <ReactAudioPlayer
+                src={"/voice/male_voice_1.mp3"} // Replace with your dynamic video URL
+                controls
+                className="pr-4 w-32"
+              />
+              <span className="flex-1">
+                {"Matthew"} ({"Male"})
+              </span>
+              <input
+                type="checkbox"
+                className="mr-2"
+                checked={selectedVoices["Matthew" as keyof SelectedVoices]}
+                onChange={() => toggleVoice("Matthew" as keyof SelectedVoices)}
+              />
+              <span>Use Voice</span>
+            </div>
+
+            <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
+              {/* <button className="mr-4 text-white text-2xl">▶</button> */}
+              <ReactAudioPlayer
+                src={"/voice/female_voice_1.mp3"} // Replace with your dynamic video URL
+                controls
+                className="pr-4 w-32"
+              />
+              <span className="flex-1">
+                {"Joanna"} ({"Female"})
+              </span>
+              <input
+                type="checkbox"
+                className="mr-2"
+                checked={selectedVoices["Joanna" as keyof SelectedVoices]}
+                onChange={() => toggleVoice("Joanna" as keyof SelectedVoices)}
+              />
+              <span>Use Voice</span>
+            </div>
+
+            <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
+              {/* <button className="mr-4 text-white text-2xl">▶</button> */}
+              <ReactAudioPlayer
+                src={"/voice/female_voice_2.mp3"} // Replace with your dynamic video URL
+                controls
+                className="w-32 pr-4"
+              />
+              <span className="flex-1">
+                {"Salli"} ({"Female"})
+              </span>
+              <input
+                type="checkbox"
+                className="mr-2"
+                checked={selectedVoices["Salli" as keyof SelectedVoices]}
+                onChange={() => toggleVoice("Salli" as keyof SelectedVoices)}
+              />
+              <span>Use Voice</span>
+            </div>
 
             <div className="flex flex-col items-center justify-center w-full">
               <h3 className="text-xl font-bold italic my-7 text-green-500">
                 Premium AI Voices
               </h3>
             </div>
-            {premiumVoices.map((voice) => (
-              <div
-                key={voice.name}
-                className="flex items-center p-3 pl-3 border border-gray-700 rounded-lg w-full"
-              >
-                <button className="mr-4 text-2xl">▶</button>
-                <span className="flex-1 text-green-500">
-                  {voice.name} ({voice.gender})
-                </span>
-                <span className="text-green-500 text-sm italic ml-10">
-                  available after starting
-                </span>
-              </div>
-            ))}
+            <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
+              <ReactAudioPlayer
+                src={"/voice/male_voice_2.mp3"} // Replace with your dynamic video URL
+                controls
+                className="pr-4 w-32"
+              />
+              <span className="flex-1 text-green-500">
+                {"Onyx"} ({"Male"})
+              </span>
+              <span className="text-green-500 text-sm italic ml-0">
+                available after starting
+              </span>
+            </div>
+
+            <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
+              <ReactAudioPlayer
+                src={"/voice/male_voice_3.mp3"} // Replace with your dynamic video URL
+                controls
+                className="pr-4 w-32"
+              />
+              <span className="flex-1 text-green-500">
+                {"Echo"} ({"Male"})
+              </span>
+              <span className="text-green-500 text-sm italic ml-0">
+                available after starting
+              </span>
+            </div>
+
+            <div className="flex items-center p-3 border border-gray-700 rounded-lg w-full">
+              <ReactAudioPlayer
+                src={"/voice/female_voice_3.mp3"} // Replace with your dynamic video URL
+                controls
+                className="pr-4 w-32"
+              />
+              <span className="flex-1 text-green-500">
+                {"Nova"} ({"Female"})
+              </span>
+              <span className="text-green-500 text-sm italic ml-2">
+                available after starting
+              </span>
+            </div>
           </div>
         </div>
 

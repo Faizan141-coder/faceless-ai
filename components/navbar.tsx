@@ -34,7 +34,7 @@ const Navbar = () => {
             height={35}
             alt="Faceless Logo"
           />
-          <h1 className="text-lg hover:text-[#4bef5b] transition-colors duration-200">faceless.video</h1>
+          <h1 className="text-lg hover:text-[#4bef5b] transition-colors duration-200">Vira Vid</h1>
         </div>
       </Link>
       <div className="flex items-center space-x-8 text-lg">
