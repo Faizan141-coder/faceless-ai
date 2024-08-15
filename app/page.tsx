@@ -239,6 +239,7 @@ export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [writingStyle, setWritingStyle] = useState<string | null>(null);
   const [keywords, setKeywords] = useState<string[]>([]);
+  const [prompt, setPrompt] = useState<string | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -262,6 +263,7 @@ export default function Home() {
       .split(",")
       .map((keyword) => keyword.trim());
     setKeywords(inputKeywords);
+    setPrompt("");
   };
 
   const handleBackgroundClick = (category?: keyof VideoUrls): void => {
@@ -277,6 +279,11 @@ export default function Home() {
     setSelectedColor(event.target.value);
   };
 
+  const handlePromptChange = (e: any) => {
+    setPrompt(e.target.value);
+    setKeywords([""]);
+  };
+
   const getSelectedVoiceId = (): string | undefined => {
     const selectedVoice = voices
       .concat(premiumVoices)
@@ -289,27 +296,28 @@ export default function Home() {
     const voiceId = getSelectedVoiceId();
 
     console.log("Writing Style: ", writingStyle);
+    console.log("Prompt: ", prompt);
     console.log("Selected Keywords: ", keywords);
     console.log("Before try");
     try {
       console.log("after try and before fetch");
 
-      const data = await fetchVideoUrl({
-        video_link: videoUrl,
-        internet_enable: true,
-        keywords,
-        writing_style: writingStyle || "",
-        font_style: "Arial",
-        voiceId: voiceId || "",
-        prompt: "",
-      }); // Call the server action to get the video URL
+      // const data = await fetchVideoUrl({
+      //   video_link: videoUrl,
+      //   internet_enable: true,
+      //   keywords,
+      //   writing_style: writingStyle || "",
+      //   font_style: "Arial",
+      //   voiceId: voiceId || "",
+      //   prompt: prompt || "",
+      // }); // Call the server action to get the video URL
 
       console.log("after fetch");
 
-      setVideoUrl(data);
+      // setVideoUrl(data);
       console.log("after set video");
 
-      console.log("URL: ", data);
+      // console.log("URL: ", data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -363,19 +371,26 @@ export default function Home() {
           <Input
             placeholder="Enter Keywords"
             type="text"
+            value={keywords || ""}
             onChange={handleKeywordChange}
             className="input-field pl-10 text-white focus:border-[#4bf05b] focus:outline-none"
           />
         </div>
-
       </div>
-      <div>
+      <div className="flex flex-col items-center justify-center">
         <h1 className="flex items-center justify-center font-bold text-sm">
           or{" "}
           <span className="ml-2 font-normal hover:underline hover:cursor-pointer">
-            enter each story manually
+            enter a prompt
           </span>
         </h1>
+        <Input
+          placeholder="Enter Custom Prompt"
+          type="text"
+          value={prompt || ""}
+          onChange={handlePromptChange}
+          className="input-field mt-5 w-96 text-white focus:border-[#4bf05b] focus:outline-none"
+        />
       </div>
 
       {/* Video Backgrounds */}
