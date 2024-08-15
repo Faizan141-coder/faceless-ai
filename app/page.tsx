@@ -302,22 +302,22 @@ export default function Home() {
     try {
       console.log("after try and before fetch");
 
-      // const data = await fetchVideoUrl({
-      //   video_link: videoUrl,
-      //   internet_enable: true,
-      //   keywords,
-      //   writing_style: writingStyle || "",
-      //   font_style: "Arial",
-      //   voiceId: voiceId || "",
-      //   prompt: prompt || "",
-      // }); // Call the server action to get the video URL
+      const data = await fetchVideoUrl({
+        video_link: videoUrl,
+        internet_enable: true,
+        keywords,
+        writing_style: writingStyle || "",
+        font_style: "Arial",
+        voiceId: voiceId || "",
+        prompt: prompt || "",
+      }); // Call the server action to get the video URL
 
       console.log("after fetch");
 
-      // setVideoUrl(data);
+      setVideoUrl(data);
       console.log("after set video");
 
-      // console.log("URL: ", data);
+      console.log("URL: ", data);
     } catch (error) {
       console.error(error);
     } finally {
