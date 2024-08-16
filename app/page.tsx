@@ -1,11 +1,11 @@
 "use client";
 
 import { fetchVideoUrl } from "@/actions/agent-executor";
-import FontSelector from "@/components/font-selector";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { MultiStepLoader } from "@/components/ui/multi-step-loader";
 import {
   Select,
   SelectContent,
@@ -14,8 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import VideoBackgrounds from "@/components/video-backgrounds";
-import VoiceSelector from "@/components/voice-selector";
 import { Globe, Pause, Play } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -156,19 +154,39 @@ const videoUrls: VideoUrls = {
   ],
 };
 
+const loadingStates = [
+  {
+    text: "Enhancing video quality",
+  },
+  {
+    text: "Adding subtitles",
+  },
+  {
+    text: "Getting a good script",
+  },
+  {
+    text: "Humanising the video",
+  },
+  {
+    text: "Making the ai undetectable",
+  },
+  {
+    text: "Adding Voice",
+  },
+];
+
 const terms = [
-  { id: 1, label: "MONTSERRAT (Default)" },
-  { id: 2, label: "THE BOLD FONT" },
-  { id: 3, label: "DEUTSCH" },
-  { id: 4, label: "ADDISON" },
-  { id: 5, label: "LEMON" },
-  { id: 6, label: "HOLTWOOD ONE" },
-  { id: 7, label: "HOLTWOOD ONE" },
-  { id: 8, label: "HOLTWOOD ONE" },
-  { id: 9, label: "HOLTWOOD ONE" },
-  { id: 10, label: "HOLTWOOD ONE" },
-  { id: 11, label: "HOLTWOOD ONE" },
-  { id: 12, label: "HOLTWOOD ONE" },
+  { id: 1, label: "Arial" },
+  { id: 2, label: "Times New Roman" },
+  { id: 3, label: "Helvetica" },
+  { id: 4, label: "Courier" },
+  { id: 5, label: "Verdana" },
+  { id: 6, label: "Georgia" },
+  { id: 7, label: "Palatino" },
+  { id: 8, label: "Garamond" },
+  { id: 9, label: "Calibri" },
+  { id: 10, label: "Tahoma" },
+  { id: 11, label: "Trebuchet MS" },
 ];
 
 const voices: Voice[] = [
@@ -406,31 +424,36 @@ export default function Home() {
     try {
       console.log("after try and before fetch");
 
-      const data = await fetchVideoUrl({
-        video_link: videoUrl,
-        internet_enable: true,
-        keywords,
-        writing_style: writingStyle || "",
-        font_style: "Arial",
-        voiceId: voiceId || "",
-        prompt: prompt || "",
-      }); // Call the server action to get the video URL
+      // const data = await fetchVideoUrl({
+      //   video_link: videoUrl,
+      //   internet_enable: true,
+      //   keywords,
+      //   writing_style: writingStyle || "",
+      //   font_style: "Arial",
+      //   voiceId: voiceId || "",
+      //   prompt: prompt || "",
+      // }); // Call the server action to get the video URL
 
       console.log("after fetch");
 
-      setVideoUrl(data);
+      // setVideoUrl(data);
       console.log("after set video");
 
-      console.log("URL: ", data);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 40000);
+
+      // console.log("URL: ", data);
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
   return (
     <div className="pb-20">
+      <MultiStepLoader loadingStates={loadingStates} loading={isLoading} duration={2000} />
       {/* Select Story Type */}
       {/* <StorySelector /> */}
       <div className="flex flex-col pt-36 items-center justify-center">
@@ -439,10 +462,16 @@ export default function Home() {
           You decide how you want your stories created.
         </h2>
         <h2 className="text-neutral-400 text-sm">
-          Let <span className="text-[#6742d9] font-semibold">AI</span> create them, get
-          <span className="text-[#6742d9] font-semibold"> Current News</span>, pull from a
+          Let <span className="text-[#6742d9] font-semibold">AI</span> create
+          them, get
+          <span className="text-[#6742d9] font-semibold"> Current News</span>,
+          pull from a
           <span className="text-[#6742d9] font-semibold"> Subreddit</span>, or
-          <span className="text-[#6742d9] font-semibold"> enter them yourself</span>.
+          <span className="text-[#6742d9] font-semibold">
+            {" "}
+            enter them yourself
+          </span>
+          .
         </h2>
       </div>
       <div className="flex items-center justify-center my-5 space-x-5">
@@ -465,14 +494,12 @@ export default function Home() {
         </Select>
         <div>or</div>
         <div className="relative flex items-center overflow-hidden">
-          {/* <Image
-            src="/search-web.png"
-            width={20}
-            height={20}
-            alt="Search"
-            className="absolute left-3"
-          /> */}
-          <Globe fill="white" size={30} className="absolute left-2 text-black" strokeWidth={1.3} />
+          <Globe
+            fill="white"
+            size={30}
+            className="absolute left-2 text-black"
+            strokeWidth={1.3}
+          />
           <Input
             placeholder="Enter Keywords"
             type="text"
@@ -523,7 +550,7 @@ export default function Home() {
                   className={`rounded-md object-cover
                   ${
                     selectedBackground === image.category
-                      ? "border-2 border-[#6742d9]"
+                      ? "border-4 border-[#6742d9]"
                       : "border border-transparent"
                   }`}
                 />
@@ -757,7 +784,7 @@ export default function Home() {
 
         <div className="mt-20">
           <Button onClick={handleCreateSeries} disabled={isLoading}>
-            {isLoading ? "Generating..." : "Create Series"}
+            {isLoading ? "Generating" : "Create Series"}
           </Button>
         </div>
       </div>
