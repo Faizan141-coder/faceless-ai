@@ -136,7 +136,7 @@ const VoiceSelector = () => {
           ))}
 
           <div className="flex flex-col items-center justify-center w-full">
-            <h3 className="text-xl font-bold italic my-7 text-green-500">
+            <h3 className="text-xl font-bold italic my-7 text-[#6742d9]">
               Premium AI Voices
             </h3>
           </div>
@@ -146,10 +146,10 @@ const VoiceSelector = () => {
               className="flex items-center p-3 pl-3 border border-gray-700 rounded-lg w-full"
             >
               <button className="mr-4 text-2xl">▶</button>
-              <span className="flex-1 text-green-500">
+              <span className="flex-1 text-[#6742d9]">
                 {voice.name} ({voice.gender})
               </span>
-              <span className="text-green-500 text-sm italic ml-10">
+              <span className="text-[#6742d9] text-sm italic ml-10">
                 available after starting
               </span>
             </div>

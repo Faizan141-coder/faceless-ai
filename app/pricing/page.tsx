@@ -25,7 +25,7 @@ const PricingPage = () => {
           ></label>
         </div>
         <span>Yearly</span>
-        <span className="ml-2 bg-green-500 text-black text-sm px-2 py-1 rounded">
+        <span className="ml-2 bg-[#6742d9] text-black text-sm px-2 py-1 rounded">
           Save 50%!
         </span>
       </div>
@@ -47,14 +47,14 @@ const PricingPage = () => {
             <li>✔ 3 Posts per Week</li>
             <li>✔ HD Video Resolution</li>
           </ul>
-          <button className="bg-green-500 text-black py-2 px-4 rounded-full font-bold">
+          <button className="bg-[#6742d9] text-black py-2 px-4 rounded-full font-bold">
             CREATE SERIES
           </button>
         </div>
 
         {/* Daily Posts Plan */}
         <div className="bg-gray-800 p-8 rounded-lg text-center relative">
-          <span className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-black text-sm px-2 py-1 rounded">
+          <span className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#6742d9] text-black text-sm px-2 py-1 rounded">
             Most Popular!
           </span>
           <h2 className="text-xl font-bold mb-4">Daily Posts</h2>
@@ -94,7 +94,7 @@ const PricingPage = () => {
             <li>✔ Priority Support</li>
             <li>✔ HD Video Resolution</li>
           </ul>
-          <button className="bg-green-500 text-black py-2 px-4 rounded-full font-bold">
+          <button className="text-black py-2 px-4 rounded-full font-bold">
             CREATE SERIES
           </button>
         </div>

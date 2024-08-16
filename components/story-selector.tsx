@@ -1,5 +1,12 @@
 import React from "react";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import Image from "next/image";
 import { Input } from "./ui/input";
 
@@ -20,7 +27,7 @@ const StorySelector = () => {
       </div>
       <div className="flex items-center justify-center my-5 space-x-5">
         <Select>
-          <SelectTrigger className="w-[180px] outline-[#4bf05b]">
+          <SelectTrigger className="w-[180px] outline-[#6742d9]">
             <SelectValue placeholder="AI Stories" />
           </SelectTrigger>
           <SelectContent>
@@ -45,7 +52,7 @@ const StorySelector = () => {
           <Input
             placeholder="Search the Web"
             type="text"
-            className="input-field pl-10 text-white focus:border-[#4bf05b] focus:outline-none"
+            className="input-field pl-10 text-white focus:border-[#6742d9] focus:outline-none"
           />
         </div>
         <div>or</div>
@@ -61,7 +68,7 @@ const StorySelector = () => {
           <Input
             placeholder="subreddit"
             type="text"
-            className="input-field pl-14 text-white focus:border-[#4bf05b] focus:outline-none"
+            className="input-field pl-14 text-white focus:border-[#6742d9] focus:outline-none"
           />
         </div>
       </div>

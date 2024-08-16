@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import VideoBackgrounds from "@/components/video-backgrounds";
 import VoiceSelector from "@/components/voice-selector";
-import { Pause, Play } from "lucide-react";
+import { Globe, Pause, Play } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
@@ -233,7 +233,7 @@ export default function Home() {
   const audioPlayerRef5 = useRef<ReactAudioPlayer | null>(null);
   const audioPlayerRef6 = useRef<ReactAudioPlayer | null>(null);
 
-  const [selectedColor, setSelectedColor] = useState("#23a05b");
+  const [selectedColor, setSelectedColor] = useState("#6742d9");
   const [selectedVoices, setSelectedVoices] = useState<SelectedVoices>({
     Matthew: false,
     Joanna: false,
@@ -439,15 +439,15 @@ export default function Home() {
           You decide how you want your stories created.
         </h2>
         <h2 className="text-neutral-400 text-sm">
-          Let <span className="text-white">AI</span> create them, get
-          <span className="text-white"> Current News</span>, pull from a
-          <span className="text-white"> Subreddit</span>, or
-          <span className="text-white"> enter them yourself</span>.
+          Let <span className="text-[#6742d9] font-semibold">AI</span> create them, get
+          <span className="text-[#6742d9] font-semibold"> Current News</span>, pull from a
+          <span className="text-[#6742d9] font-semibold"> Subreddit</span>, or
+          <span className="text-[#6742d9] font-semibold"> enter them yourself</span>.
         </h2>
       </div>
       <div className="flex items-center justify-center my-5 space-x-5">
         <Select onValueChange={(value) => setWritingStyle(value)}>
-          <SelectTrigger className="w-[180px] outline-[#4bf05b]">
+          <SelectTrigger className="w-[180px] outline-[#6742d9]">
             <SelectValue placeholder="Select Style" />
           </SelectTrigger>
           <SelectContent>
@@ -465,19 +465,20 @@ export default function Home() {
         </Select>
         <div>or</div>
         <div className="relative flex items-center overflow-hidden">
-          <Image
+          {/* <Image
             src="/search-web.png"
             width={20}
             height={20}
             alt="Search"
             className="absolute left-3"
-          />
+          /> */}
+          <Globe fill="white" size={30} className="absolute left-2 text-black" strokeWidth={1.3} />
           <Input
             placeholder="Enter Keywords"
             type="text"
             value={keywords || ""}
             onChange={handleKeywordChange}
-            className="input-field pl-10 text-white focus:border-[#4bf05b] focus:outline-none"
+            className="input-field pl-10 focus:border-[#6742d9] focus:outline-none"
           />
         </div>
       </div>
@@ -493,7 +494,7 @@ export default function Home() {
           type="text"
           value={prompt || ""}
           onChange={handlePromptChange}
-          className="input-field mt-5 w-96 text-white focus:border-[#4bf05b] focus:outline-none"
+          className="input-field mt-5 w-96 focus:border-[#6742d9] focus:outline-none"
         />
       </div>
 
@@ -522,7 +523,7 @@ export default function Home() {
                   className={`rounded-md object-cover
                   ${
                     selectedBackground === image.category
-                      ? "border-2 border-[#4bf05b]"
+                      ? "border-2 border-[#6742d9]"
                       : "border border-transparent"
                   }`}
                 />
@@ -682,7 +683,7 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col items-center justify-center w-full">
-              <h3 className="text-xl font-bold italic my-7 text-green-500">
+              <h3 className="text-xl font-bold italic my-7 text-[#6742d9]">
                 Premium AI Voices
               </h3>
             </div>
@@ -700,10 +701,10 @@ export default function Home() {
                 onEnded={() => setIsPlaying4(false)}
                 className="pr-4 w-32"
               />
-              <span className="flex-1 text-green-500">
+              <span className="flex-1 text-[#6742d9]">
                 {"Onyx"} ({"Male"})
               </span>
-              <span className="text-green-500 text-sm italic ml-0">
+              <span className="text-[#6742d9] text-sm italic ml-0">
                 available after starting
               </span>
             </div>
@@ -722,10 +723,10 @@ export default function Home() {
                 onEnded={() => setIsPlaying5(false)}
                 className="pr-4 w-32"
               />
-              <span className="flex-1 text-green-500">
+              <span className="flex-1 text-[#6742d9]">
                 {"Echo"} ({"Male"})
               </span>
-              <span className="text-green-500 text-sm italic ml-0">
+              <span className="text-[#6742d9] text-sm italic ml-0">
                 available after starting
               </span>
             </div>
@@ -744,10 +745,10 @@ export default function Home() {
                 onEnded={() => setIsPlaying6(false)}
                 className="pr-4 w-32"
               />
-              <span className="flex-1 text-green-500">
+              <span className="flex-1 text-[#6742d9]">
                 {"Nova"} ({"Female"})
               </span>
-              <span className="text-green-500 text-sm italic ml-2">
+              <span className="text-[#6742d9] text-sm italic ml-2">
                 available after starting
               </span>
             </div>
