@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -28,12 +29,7 @@ const Navbar = () => {
     >
       <Link href={"/"}>
         <div className="flex items-center">
-          <Image
-            src="/icon.png"
-            width={70}
-            height={70}
-            alt="Faceless Logo"
-          />
+          <Image src="/icon.png" width={70} height={70} alt="Faceless Logo" />
           <h1 className="text-lg hover:text-[#6742d9] font-bold transition-colors duration-200">
             Vira Vid
           </h1>
@@ -46,12 +42,15 @@ const Navbar = () => {
         <Link href={"/about"}>
           <h1 className="font-bold hover:underline">About</h1>
         </Link>
-        <Link href={"/sign-in"}>
-          <h1 className="font-bold hover:underline">Sign in</h1>
-        </Link>
-        <Button className="uppercase font-semibold px-6">
-          Free Trial
-        </Button>
+        <SignedOut>
+          <div className="font-bold">
+            <SignInButton />
+          </div>
+        </SignedOut>
+        <Button className="uppercase font-semibold px-6">Free Trial</Button>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
     </div>
   );

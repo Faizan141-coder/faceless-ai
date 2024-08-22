@@ -1,106 +1,214 @@
-import React from "react";
+"use client";
 
-const PricingPage = () => {
-  return (
-    <div className="text-white min-h-screen flex flex-col items-center p-8">
-      <h1 className="text-3xl font-bold mb-2">Choose your Frequency</h1>
-      <h2 className="text-neutral-400 text-sm mb-5">
-        Choose a subscription plan that fits how often you want content posted
-        on your channel
-      </h2>
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
+import { cn } from "@/lib/utils";
 
-      {/* Toggle for Monthly/Yearly */}
-      <div className="flex items-center space-x-4 mb-12">
-        <span>Monthly</span>
-        <div className="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
-          <input
-            type="checkbox"
-            name="toggle"
-            id="toggle"
-            className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-          />
-          <label
-            htmlFor="toggle"
-            className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-400 cursor-pointer"
-          ></label>
-        </div>
-        <span>Yearly</span>
-        <span className="ml-2 bg-[#6742d9] text-black text-sm px-2 py-1 rounded">
-          Save 50%!
-        </span>
-      </div>
-
-      {/* Pricing Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Starter Plan */}
-        <div className="bg-gray-800 p-8 rounded-lg text-center">
-          <h2 className="text-xl font-bold mb-4">Starter</h2>
-          <p className="text-2xl font-bold">$15/mo</p>
-          <p className="text-sm text-gray-400 mb-4">Per Series</p>
-          <p className="mb-6">
-            Auto-posts <span className="font-bold">three times per week</span>
-          </p>
-          <ul className="text-left mb-8">
-            <li>✔ Content Creation</li>
-            <li>✔ Auto Posting to your channel</li>
-            <li>✔ Ability to edit posts in advance</li>
-            <li>✔ 3 Posts per Week</li>
-            <li>✔ HD Video Resolution</li>
-          </ul>
-          <button className="bg-[#6742d9] text-black py-2 px-4 rounded-full font-bold">
-            CREATE SERIES
-          </button>
-        </div>
-
-        {/* Daily Posts Plan */}
-        <div className="bg-gray-800 p-8 rounded-lg text-center relative">
-          <span className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#6742d9] text-black text-sm px-2 py-1 rounded">
-            Most Popular!
-          </span>
-          <h2 className="text-xl font-bold mb-4">Daily Posts</h2>
-          <p className="text-2xl font-bold">$30/mo</p>
-          <p className="text-sm text-gray-400 mb-4">Per Series</p>
-          <p className="mb-6">
-            Auto-posts <span className="font-bold">once per day</span>
-          </p>
-          <ul className="text-left mb-8">
-            <li>✔ Content Creation</li>
-            <li>✔ Auto Posting to your channel</li>
-            <li>✔ Ability to edit posts in advance</li>
-            <li>✔ 7 Posts per Week</li>
-            <li>✔ Priority Support</li>
-            <li>✔ HD Video Resolution</li>
-          </ul>
-          <button className="bg-blue-500 text-black py-2 px-4 rounded-full font-bold">
-            FREE TRIAL
-          </button>
-        </div>
-
-        {/* Double Up Plan */}
-        <div className="bg-gray-800 p-8 rounded-lg text-center">
-          <h2 className="text-xl font-bold mb-4">Double Up</h2>
-          <p className="text-2xl font-bold">$45/mo</p>
-          <p className="text-sm text-gray-400 mb-4">Per Series</p>
-          <p className="mb-6">
-            Auto-posts <span className="font-bold">twice per day</span>
-          </p>
-          <ul className="text-left mb-8">
-            <li>✔ Content Creation</li>
-            <li>✔ Auto Posting to your channel</li>
-            <li>✔ Download video files</li>
-            <li>✔ Ability to edit posts in advance</li>
-            <li>✔ 14 Posts per Week</li>
-            <li>✔ 4.7X More posts than Starter!</li>
-            <li>✔ Priority Support</li>
-            <li>✔ HD Video Resolution</li>
-          </ul>
-          <button className="text-black py-2 px-4 rounded-full font-bold">
-            CREATE SERIES
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+type PricingSwitchProps = {
+  onSwitch: (value: string) => void;
 };
 
-export default PricingPage;
+type PricingCardProps = {
+  isYearly?: boolean;
+  title: string;
+  monthlyPrice?: number;
+  yearlyPrice?: number;
+  description: string;
+  features: string[];
+  actionLabel: string;
+  popular?: boolean;
+  exclusive?: boolean;
+};
+
+const PricingHeader = ({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle: string;
+}) => (
+  <section className="text-center">
+    <h2 className="text-3xl font-bold">{title}</h2>
+    <p className="text-xl pt-1">{subtitle}</p>
+    <br />
+  </section>
+);
+
+// const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
+//   <Tabs defaultValue="0" className="w-40 mx-auto" onValueChange={onSwitch}>
+//     <TabsList className="py-6 px-2">
+//       <TabsTrigger value="0" className="text-base">
+//         Monthly
+//       </TabsTrigger>
+//       <TabsTrigger value="1" className="text-base">
+//         Yearly
+//       </TabsTrigger>
+//     </TabsList>
+//   </Tabs>
+// );
+
+const PricingCard = ({
+  isYearly,
+  title,
+  monthlyPrice,
+  yearlyPrice,
+  description,
+  features,
+  actionLabel,
+  popular,
+  exclusive,
+}: PricingCardProps) => (
+  <Card
+    className={cn(`w-96 flex flex-col justify-between py-1 ${
+      popular ? "border-indigo-400" : "border-zinc-700"
+    } mx-auto sm:mx-0, {
+      "animate-background-shine bg-white dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] transition-colors":
+        exclusive,
+    }`)}
+  >
+    <div>
+      <CardHeader className="pb-8 pt-4">
+        {isYearly && yearlyPrice && monthlyPrice ? (
+          <div className="flex justify-between">
+            <CardTitle className="text-zinc-700 dark:text-zinc-300 text-lg">
+              {title}
+            </CardTitle>
+            <div
+              className={cn(
+                "px-2.5 rounded-xl h-fit text-sm py-1 bg-zinc-200 text-black dark:bg-zinc-800 dark:text-white",
+                {
+                  "bg-gradient-to-r from-purple-400 to-indigo-400 dark:text-black ":
+                    popular,
+                }
+              )}
+            >
+              Save ${monthlyPrice * 12 - yearlyPrice}
+            </div>
+          </div>
+        ) : (
+          <CardTitle className="text-zinc-700 dark:text-zinc-300 text-lg">
+            {title}
+          </CardTitle>
+        )}
+        <div className="flex gap-0.5">
+          <h3 className="text-3xl font-bold">
+            {yearlyPrice && isYearly
+              ? "$" + yearlyPrice
+              : monthlyPrice
+              ? "$" + monthlyPrice
+              : "Custom"}
+          </h3>
+          <span className="flex flex-col justify-end text-sm mb-1">
+            {yearlyPrice && isYearly ? "/year" : monthlyPrice ? "/month" : null}
+          </span>
+        </div>
+        <CardDescription className="pt-1.5 h-12 font-semibold text-md">
+          {description}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2">
+        {features.map((feature: string) => (
+          <CheckItem key={feature} text={feature} />
+        ))}
+      </CardContent>
+    </div>
+    <CardFooter className="mt-2">
+      <Button
+        className={cn(
+          "relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium  dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50",
+          { "bg-[#7c3aed]": popular }
+        )}
+      >
+        <div className="absolute -inset-0.5 -z-10 rounded-lg bg-gradient-to-b from-[#c7d2fe] to-[#8678f9] opacity-75 blur" />
+        {actionLabel}
+      </Button>
+    </CardFooter>
+  </Card>
+);
+
+const CheckItem = ({ text }: { text: string }) => (
+  <div className="flex gap-2">
+    <CheckCircle2 size={18} className="my-auto text-purple-400" />
+    <p className="pt-0.5 text-zinc-700 dark:text-zinc-300 text-sm">{text}</p>
+  </div>
+);
+
+export default function page() {
+  const [isYearly, setIsYearly] = useState(false);
+  const togglePricingPeriod = (value: string) =>
+    setIsYearly(parseInt(value) === 1);
+
+  const plans = [
+    {
+      title: "Beginner",
+      monthlyPrice: 19.99,
+      description: "Essential features you need to get started",
+      features: [
+        "Allows to only post 3 times per week",
+        "AI High Quality Content Creation",
+        "HD Video Quality",
+        "AI undetectable",
+        "3 Posts per Week",
+        "More Ai Voices + Creative Scripts",
+      ],
+      actionLabel: "Subscribe",
+    },
+    {
+      title: "Daily",
+      monthlyPrice: 29.99,
+      description: "Perfect for owners of small & medium businessess",
+      features: [
+        "Allows to post once per day",
+        "Enhanced priority support",
+        "AI High Quality Content Creation",
+        "HD Video Quality",
+        "AI undetectable",
+        "7 Posts per Week",
+        "More AI Voices + Creative Scripts",
+      ],
+      actionLabel: "Subscribe",
+      popular: true,
+    },
+    {
+      title: "Creator",
+      monthlyPrice: 49.99,
+      description: "Dedicated support and infrastructure to fit your needs",
+      features: [
+        "Unlimited credit",
+        "Allows to post twice per day",
+        "Enhanced priority support",
+        "AI High Quality Content Creation",
+        "HD Video Quality",
+        "AI undetectable",
+        "14 Posts per Week",
+        "More AI Voices + Creative Scripts",
+      ],
+      actionLabel: "Subscribe",
+      exclusive: true,
+    },
+  ];
+  return (
+    <div className="py-8">
+      <PricingHeader
+        title="Pricing Plans"
+        subtitle="Choose the plan that's right for you"
+      />
+      {/* <PricingSwitch onSwitch={togglePricingPeriod} /> */}
+      <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-0 mt-8 px-20">
+        {plans.map((plan) => {
+          return <PricingCard key={plan.title} {...plan} isYearly={isYearly} />;
+        })}
+      </section>
+    </div>
+  );
+}
