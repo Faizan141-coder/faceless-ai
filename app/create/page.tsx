@@ -5,6 +5,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { MultiStepLoader } from "@/components/ui/multi-step-loader";
 import {
   Select,
@@ -48,6 +49,10 @@ interface Voice {
   type: string;
   audioFile: string;
 }
+
+type LoadingState = {
+  text: string;
+};
 
 const images: Image[] = [
   // {
@@ -154,25 +159,13 @@ const videoUrls: VideoUrls = {
   ],
 };
 
-const loadingStates = [
-  {
-    text: "Enhancing video quality",
-  },
-  {
-    text: "Adding subtitles",
-  },
-  {
-    text: "Getting a good script",
-  },
-  {
-    text: "Humanising the video",
-  },
-  {
-    text: "Making the ai undetectable",
-  },
-  {
-    text: "Adding Voice",
-  },
+const loadingStates: LoadingState[] = [
+  { text: "Enhancing video quality" },
+  { text: "Adding subtitles" },
+  { text: "Getting a good script" },
+  { text: "Humanising the video" },
+  { text: "Making the ai undetectable" },
+  { text: "Adding Voice" },
 ];
 
 const terms = [
@@ -262,6 +255,7 @@ export default function Create() {
   });
   const [videoUrl, setVideoUrl] = useState("/video/minecraft.mp4"); // Initial video URL
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingIndex, setLoadingIndex] = useState<number>(0);
   const [isMounted, setIsMounted] = useState(false);
 
   const [isPlaying1, setIsPlaying1] = useState(false);
@@ -281,6 +275,16 @@ export default function Create() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isLoading) {
+      interval = setInterval(() => {
+        setLoadingIndex((prevIndex) => (prevIndex + 1) % loadingStates.length);
+      }, 5000); // Change the text every 5 seconds
+    }
+    return () => clearInterval(interval); // Cleanup the interval on component unmount or when isLoading changes
+  }, [isLoading]);
 
   if (!isMounted) {
     return null;
@@ -439,9 +443,7 @@ export default function Create() {
       setVideoUrl(data);
       console.log("after set video");
 
-      // setTimeout(() => {
-      //   setIsLoading(false);
-      // }, 40000);
+      setTimeout(() => setIsLoading(false), 45000);
 
       console.log("URL: ", data);
     } catch (error) {
@@ -453,7 +455,6 @@ export default function Create() {
 
   return (
     <div className="pb-20">
-      <MultiStepLoader loadingStates={loadingStates} loading={isLoading} duration={2000} />
       {/* Select Story Type */}
       <div className="flex flex-col pt-36 items-center justify-center">
         <h1 className="text-5xl">Select a Story Type</h1>
@@ -782,9 +783,9 @@ export default function Create() {
         </div>
 
         <div className="mt-20">
-          <Button onClick={handleCreateSeries} disabled={isLoading}>
-            {isLoading ? "Generating" : "Create Series"}
-          </Button>
+          <LoadingButton onClick={handleCreateSeries} loading={isLoading}>
+            {isLoading ? loadingStates[loadingIndex].text : "Create Series"}
+          </LoadingButton>
         </div>
       </div>
     </div>
